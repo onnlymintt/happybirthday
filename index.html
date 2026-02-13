@@ -3,225 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landmark 81 Command Center - Luxury Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>Landmark 81 - Advanced Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-purple: #2d004d;
-            --accent-gold: #d4af37;
-            --neon-glow: #bc13fe;
-            --glass: rgba(255, 255, 255, 0.05);
+            --gold: #d4af37;
+            --cyber-blue: #00f2ff;
+            --deep-bg: #020205;
+            --panel-bg: rgba(15, 15, 25, 0.9);
+            --neon-pink: #ff007f;
         }
 
         body { 
-            margin: 0; 
-            background: #050505; 
-            color: #e0e0e0; 
-            font-family: 'Montserrat', sans-serif; 
-            display: flex; 
-            height: 100vh;
-            overflow: hidden; 
+            margin: 0; background: var(--deep-bg); color: #fff; 
+            font-family: 'Quicksand', sans-serif; display: flex; height: 100vh; overflow: hidden; 
         }
 
-        /* Control Panel - Glassmorphism style */
-        .controls { 
-            width: 380px; 
-            padding: 40px; 
-            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
-            border-right: 1px solid rgba(212, 175, 55, 0.2); 
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(15px);
+        /* --- Sidebar Controls --- */
+        .sidebar { 
+            width: 360px; padding: 30px; background: var(--panel-bg); 
+            border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column;
+            backdrop-filter: blur(20px); z-index: 100;
         }
 
-        h1 { 
-            font-family: 'Orbitron', sans-serif;
-            color: var(--accent-gold); 
-            font-size: 22px; 
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        h1 { font-family: 'Orbitron'; font-size: 1.2rem; color: var(--gold); letter-spacing: 3px; margin-bottom: 5px; }
+        .system-status { font-size: 0.7rem; color: #4fbcff; margin-bottom: 30px; text-transform: uppercase; }
+
+        .control-group { margin-bottom: 25px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
+        label { display: block; font-size: 0.75rem; color: #888; margin-bottom: 10px; letter-spacing: 1px; }
+
+        input[type="text"] {
+            width: 100%; background: rgba(0,0,0,0.5); border: 1px solid #333; padding: 12px;
+            color: var(--cyber-blue); font-family: 'Orbitron'; border-radius: 4px; box-sizing: border-box;
         }
 
-        .target-info {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 30px;
-            text-transform: uppercase;
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        .btn {
+            background: transparent; border: 1px solid rgba(255,255,255,0.2); padding: 12px;
+            color: #fff; cursor: pointer; font-family: 'Orbitron'; font-size: 0.65rem; transition: 0.3s;
+            border-radius: 4px; text-transform: uppercase;
         }
 
-        .target-info b { color: var(--neon-glow); }
+        .btn:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); color: var(--gold); }
+        .btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
 
-        label {
-            font-size: 10px;
-            letter-spacing: 2px;
-            color: #555;
-            margin-bottom: 10px;
-            display: block;
+        .console {
+            background: #000; padding: 15px; border-radius: 5px; height: 120px; overflow-y: auto;
+            font-family: monospace; font-size: 0.7rem; color: #0f0; margin-top: auto; border: 1px solid #222;
         }
 
-        .btn { 
-            width: 100%; 
-            padding: 18px; 
-            margin: 12px 0; 
-            border: 1px solid rgba(212, 175, 55, 0.3); 
-            border-radius: 4px; 
-            cursor: pointer; 
-            font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            font-weight: bold;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: transparent;
-            color: white;
-            position: relative;
-            overflow: hidden;
+        /* --- Landmark 81 Visualization --- */
+        .visual-area { 
+            flex: 1; position: relative; display: flex; justify-content: center; align-items: flex-end; 
+            padding-bottom: 40px; background: radial-gradient(circle at center, #0a0a20 0%, #020205 100%);
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-            transition: 0.5s;
+        .building { position: relative; display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 0 20px rgba(0,0,0,0.5)); }
+
+        .segment {
+            background: linear-gradient(90deg, #111 0%, #222 50%, #111 100%);
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.8s ease; position: relative;
         }
 
-        .btn:hover::before { left: 100%; }
+        .s1 { width: 140px; height: 250px; z-index: 1; }
+        .s2 { width: 100px; height: 180px; margin-top: -5px; z-index: 2; }
+        .s3 { width: 60px; height: 120px; margin-top: -5px; z-index: 3; }
+        .s4 { width: 10px; height: 80px; background: #333; z-index: 4; }
 
-        .btn-light:hover { background: var(--primary-purple); border-color: var(--neon-glow); box-shadow: 0 0 20px rgba(188, 19, 254, 0.4); }
-        .btn-screen:hover { background: #002b4d; border-color: #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.4); }
-        .btn-reset { color: #444; border-color: #222; margin-top: auto; }
-
-        /* Building Arena */
-        .building-container { 
-            flex: 1; 
-            display: flex; 
-            justify-content: center; 
-            align-items: flex-end; 
-            background: radial-gradient(circle at center, #1a0b2e 0%, #050505 100%); 
-            position: relative;
+        /* LED Screen Logic */
+        .led-display {
+            position: absolute; top: 20%; width: 100%; height: 60px; background: #000;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            border-top: 1px solid #222; border-bottom: 1px solid #222;
         }
 
-        /* Landmark 81 Refined Shape */
-        .landmark-wrapper {
-            position: relative;
-            width: 140px;
-            height: 85%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .led-text {
+            color: #ff0000; font-family: 'Orbitron'; font-size: 0.8rem; text-align: center;
+            text-shadow: 0 0 10px #ff0000; white-space: nowrap; display: none;
         }
 
-        .tower-section {
-            background: linear-gradient(to right, #111, #222, #111);
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 1s ease;
+        /* Power On States */
+        .power-on .segment { border-color: var(--cyber-blue); box-shadow: 0 0 15px rgba(0, 242, 255, 0.1); }
+        .power-on .led-text { display: block; animation: marquee 5s linear infinite; }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
 
-        .base { width: 120px; height: 40%; }
-        .mid { width: 80px; height: 30%; margin-top: -2px; }
-        .top { width: 40px; height: 20%; margin-top: -2px; }
-        .spire { width: 4px; height: 10%; background: #333; }
-
-        /* Lighting Effects */
-        .lights-on .tower-section {
-            border-color: rgba(188, 19, 254, 0.3);
-            box-shadow: 0 0 30px rgba(188, 19, 254, 0.1);
-            background: linear-gradient(to right, #1a0033, #2d004d, #1a0033);
-        }
-
-        .led-screen { 
-            position: absolute; 
-            top: 25%; 
-            width: 100%; 
-            height: 120px; 
-            background: #000; 
-            overflow: hidden; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            border-top: 1px solid #333;
-            border-bottom: 1px solid #333;
-        }
-
-        .led-screen.active { 
-            background: #000; 
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.2);
-        }
-
-        .led-text { 
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px; 
-            color: #ff0040; 
-            text-align: center;
-            display: none;
-            filter: blur(0.5px);
-            text-shadow: 0 0 10px #ff0040;
-        }
-
-        .led-screen.active .led-text { 
-            display: block; 
-            animation: pulse 1.5s infinite alternate; 
-        }
-
-        @keyframes pulse {
-            from { opacity: 0.7; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .status { margin-top: 20px; font-size: 11px; color: #444; font-family: 'Courier New'; }
+        /* Modes */
+        .mode-party .segment { animation: strobe 0.5s infinite; }
+        @keyframes strobe { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        
+        .mode-romantic .segment { background: linear-gradient(90deg, #2d004d 0%, #ff007f 100%); }
     </style>
 </head>
 <body>
 
-    <div class="controls">
-        <h1>COMMAND CENTER</h1>
-        <div class="target-info">Unauthorized Access Restricted<br>Target: <b>TIỂU MỸ</b></div>
-        
-        <label>PHOTON LIGHTING SYSTEM</label>
-        <button class="btn btn-light" onclick="toggleLights()">ENABLE AMBIENT LIGHTS</button>
-        
-        <label>EXTERNAL LED ARRAY</label>
-        <button class="btn btn-screen" onclick="toggleScreen()">BROADCAST MESSAGE</button>
-        
-        <div class="status" id="statusLog">> System initialized...</div>
-        
-        <button class="btn btn-reset" onclick="location.reload()">TERMINATE SESSION</button>
+    <div class="sidebar">
+        <h1>LANDMARK 81</h1>
+        <div class="system-status" id="sysTime">OS v2.0.4 - Secure Connection</div>
+
+        <div class="control-group">
+            <label>THÔNG ĐIỆP LED (REAL-TIME)</label>
+            <input type="text" id="msgInput" placeholder="Nhập lời chúc..." oninput="updateMessage()">
+        </div>
+
+        <div class="control-group">
+            <label>HỆ THỐNG NĂNG LƯỢNG</label>
+            <button class="btn" style="width:100%" onclick="togglePower(this)">KÍCH HOẠT HỆ THỐNG</button>
+        </div>
+
+        <div class="control-group">
+            <label>CHẾ ĐỘ HIỂN THỊ</label>
+            <div class="btn-grid">
+                <button class="btn" onclick="setMode('normal')">Standard</button>
+                <button class="btn" onclick="setMode('party')">Festival</button>
+                <button class="btn" onclick="setMode('romantic')">Luxury</button>
+                <button class="btn" onclick="setMode('stealth')">Stealth</button>
+            </div>
+        </div>
+
+        <div class="console" id="consoleOut">> Waiting for authorization...</div>
     </div>
 
-    <div class="building-container">
-        <div class="landmark-wrapper" id="building">
-            <div class="spire tower-section"></div>
-            <div class="top tower-section">
-                <div class="led-screen" id="mainScreen">
-                    <div class="led-text">HAPPY<br>BIRTHDAY<br>TIỂU MỸ</div>
+    <div class="visual-area">
+        <div class="building" id="mainBuilding">
+            <div class="segment s4"></div>
+            <div class="segment s3">
+                <div class="led-display">
+                    <div class="led-text" id="targetText">HAPPY BIRTHDAY TIỂU MỸ</div>
                 </div>
             </div>
-            <div class="mid tower-section"></div>
-            <div class="base tower-section"></div>
+            <div class="segment s2"></div>
+            <div class="segment s1"></div>
         </div>
     </div>
 
     <script>
         function log(msg) {
-            const date = new Date().toLocaleTimeString();
-            document.getElementById('statusLog').innerHTML = `> [${date}] ${msg}`;
+            const out = document.getElementById('consoleOut');
+            const time = new Date().toLocaleTimeString('en-GB');
+            out.innerHTML += `<div>[${time}] ${msg}</div>`;
+            out.scrollTop = out.scrollHeight;
         }
 
-        function toggleLights() {
-            const b = document.getElementById('building');
-            b.classList.toggle('lights-on');
-            const isOn = b.classList.contains('lights-on');
-            log(isOn ? "Atmospheric lighting: ONLINE" : "Atmospheric lighting: OFFLINE");
+        function updateMessage() {
+            const val = document.getElementById('msgInput').value;
+            document.getElementById('targetText').innerText = val || "HAPPY BIRTHDAY TIỂU MỸ";
         }
 
-        function toggleScreen() {
-            const s = document.getElementById('mainScreen');
-            s.classList.toggle('active');
-            const isActive = s.classList.contains('active');
-            log(isActive ? "Visual Uplink: ACTIVE - Broadcasting data" : "Visual Uplink: DISCONNECTED");
+        function togglePower(btn) {
+            const b = document.getElementById('mainBuilding');
+            b.classList.toggle('power-on');
+            const isOn = b.classList.contains('power-on');
+            btn.classList.toggle('active');
+            log(isOn ? "Main Grid: ONLINE. LED array synchronized." : "System Cooling: Active. Powering down.");
         }
+
+        function setMode(mode) {
+            const b = document.getElementById('mainBuilding');
+            b.className = 'building power-on'; // Reset classes
+            if (mode !== 'normal') b.classList.add('mode-' + mode);
+            log(`Scenario changed to: ${mode.toUpperCase()}`);
+        }
+
+        // Auto clock
+        setInterval(() => {
+            document.getElementById('sysTime').innerText = `OS v2.0.4 - ${new Date().toLocaleTimeString()}`;
+        }, 1000);
+
+        log("System core loaded. Access granted to XINH TỐ.");
     </script>
 </body>
 </html>
