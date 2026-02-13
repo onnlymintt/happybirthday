@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landmark 81 Control Panel - Happy Birthday Tiểu Mỹ</title>
+    <style>
+        body { margin: 0; background: #0a0a0a; color: white; font-family: 'Segoe UI', sans-serif; display: flex; overflow: hidden; }
+        
+        /* Panel điều khiển bên trái */
+        .controls { width: 350px; padding: 30px; background: #151515; height: 100vh; border-right: 1px solid #333; z-index: 10; }
+        
+        /* Mô phỏng tòa nhà Landmark 81 bên phải */
+        .building-container { flex: 1; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 50px; position: relative; background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0a 100%); }
+        
+        .landmark81 { width: 120px; height: 80%; background: #222; position: relative; transition: 0.5s; clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        
+        /* Chế độ đèn */
+        .landmark81.lights-on { background: #333; box-shadow: 0 0 50px rgba(255, 215, 0, 0.3); }
+        .landmark81.lights-on::after { content: ''; position: absolute; width: 100%; height: 100%; background: repeating-linear-gradient(transparent, transparent 10px, rgba(255, 215, 0, 0.1) 11px); }
+
+        /* Màn hình LED trên tòa nhà */
+        .led-screen { position: absolute; top: 30%; left: 50%; transform: translateX(-50%); width: 60px; height: 100px; background: #000; border: 2px solid #444; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .led-screen.active { background: #ff0000; box-shadow: 0 0 20px #ff0000; border-color: #ff4d4d; }
+        .led-text { font-size: 10px; font-weight: bold; color: white; display: none; }
+        .led-screen.active .led-text { display: block; animation: scrollText 3s linear infinite; }
+
+        @keyframes scrollText { from { transform: translateY(100%); } to { transform: translateY(-100%); } }
+
+        h1 { color: #eb0028; font-size: 20px; text-transform: uppercase; }
+        .btn { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-light { background: #feca57; color: #000; }
+        .btn-screen { background: #54a0ff; color: #fff; }
+        .btn-reset { background: #333; color: #888; }
+        .status { margin-top: 20px; font-size: 14px; color: #666; }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <h1>Command Center<br>Landmark 81</h1>
+        <p>Target: <b>Cô Tiểu Mỹ</b></p>
+        <hr style="border-color: #333">
+        
+        <label>HỆ THỐNG CHIẾU SÁNG</label>
+        <button class="btn btn-light" onclick="toggleLights()">BẬT/TẮT ĐÈN TÒA NHÀ</button>
+        
+        <label>MÀN HÌNH LED NGOÀI TRỜI</label>
+        <button class="btn btn-screen" onclick="toggleScreen()">KẾT NỐI & PHÁT THÔNG ĐIỆP</button>
+        
+        <button class="btn btn-reset" onclick="location.reload()">RESET SYSTEM</button>
+
+        <div class="status" id="statusLog">> Hệ thống sẵn sàng...</div>
+    </div>
+
+    <div class="building-container">
+        <div id="fireworks"></div>
+        
+        <div class="landmark81" id="building">
+            <div class="led-screen" id="mainScreen">
+                <div class="led-text">HAPPY<br>BIRTHDAY<br>TIỂU MỸ!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function log(msg) {
+            document.getElementById('statusLog').innerHTML = "> " + msg;
+        }
+
+        function toggleLights() {
+            const b = document.getElementById('building');
+            b.classList.toggle('lights-on');
+            const isOn = b.classList.contains('lights-on');
+            log(isOn ? "Đã bật hệ thống đèn trang trí." : "Đã tắt đèn tiết kiệm điện.");
+        }
+
+        function toggleScreen() {
+            const s = document.getElementById('mainScreen');
+            s.classList.toggle('active');
+            const isActive = s.classList.contains('active');
+            log(isActive ? "Đang phát thông điệp chúc mừng trên LED..." : "Màn hình đã ngắt kết nối.");
+        }
+    </script>
+</body>
+</html> 
