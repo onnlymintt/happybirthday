@@ -3,163 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landmark 81 - Authentic Architecture</title>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;300;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Landmark 81 Command Center - Luxury Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #020205;
-            --glass-blue: rgba(100, 150, 255, 0.1);
-            --gold-leaf: #d4af37;
-            --building-width: 160px;
+            --primary-purple: #2d004d;
+            --accent-gold: #d4af37;
+            --neon-glow: #bc13fe;
+            --glass: rgba(255, 255, 255, 0.05);
         }
 
-        * { box-sizing: border-box; }
         body { 
-            margin: 0; background: var(--bg-deep); color: #fff; 
-            font-family: 'Be Vietnam Pro', sans-serif; display: flex; height: 100vh; overflow: hidden; 
+            margin: 0; 
+            background: #050505; 
+            color: #e0e0e0; 
+            font-family: 'Montserrat', sans-serif; 
+            display: flex; 
+            height: 100vh;
+            overflow: hidden; 
         }
 
-        /* --- UI Control Panel --- */
-        .panel { 
-            width: 340px; padding: 40px; background: rgba(10, 10, 15, 0.8);
-            border-right: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px); z-index: 100;
-            display: flex; flex-direction: column;
+        /* Control Panel - Glassmorphism style */
+        .controls { 
+            width: 380px; 
+            padding: 40px; 
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
+            border-right: 1px solid rgba(212, 175, 55, 0.2); 
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(15px);
         }
 
-        .title { font-weight: 600; font-size: 12px; letter-spacing: 4px; color: var(--gold-leaf); text-transform: uppercase; margin-bottom: 50px; }
-        
-        .control-item { margin-bottom: 30px; }
-        .control-item label { display: block; font-size: 10px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; }
-        
-        input[type="text"] {
-            width: 100%; background: transparent; border: none; border-bottom: 1px solid #333;
-            padding: 10px 0; color: #fff; font-family: 'Be Vietnam Pro'; outline: none; transition: 0.3s;
+        h1 { 
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-gold); 
+            font-size: 22px; 
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
-        input[type="text"]:focus { border-bottom-color: var(--gold-leaf); }
 
-        .btn-luxe {
-            background: transparent; border: 1px solid #333; padding: 15px; color: #aaa;
-            cursor: pointer; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; transition: 0.4s;
-            margin-bottom: 10px; width: 100%;
+        .target-info {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 30px;
+            text-transform: uppercase;
         }
-        .btn-luxe:hover { border-color: var(--gold-leaf); color: #fff; background: rgba(212, 175, 55, 0.05); }
-        .btn-luxe.active { background: var(--gold-leaf); color: #000; font-weight: 600; }
 
-        .status-log { margin-top: auto; font-size: 11px; color: #444; font-family: 'Inter'; border-left: 1px solid var(--gold-leaf); padding-left: 15px; }
+        .target-info b { color: var(--neon-glow); }
 
-        /* --- Visual: Landmark 81 Authentic Structure --- */
-        .stage { flex: 1; position: relative; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 50px; perspective: 1000px; }
+        label {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #555;
+            margin-bottom: 10px;
+            display: block;
+        }
 
-        .landmark-81 { position: relative; display: flex; flex-direction: column; align-items: center; }
-
-        /* Hiệu ứng kính và khung nhôm dọc */
-        .bundle {
-            background: linear-gradient(90deg, #0a111a 0%, #1a2a3a 50%, #0a111a 100%);
-            border: 1px solid rgba(255, 255, 255, 0.05); position: relative;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.5); border-radius: 2px 2px 0 0;
+        .btn { 
+            width: 100%; 
+            padding: 18px; 
+            margin: 12px 0; 
+            border: 1px solid rgba(212, 175, 55, 0.3); 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: transparent;
+            color: white;
+            position: relative;
             overflow: hidden;
         }
-        
-        /* Vân kính dọc cho giống đời thật */
-        .bundle::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.02) 5px);
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: 0.5s;
         }
 
-        /* Hiệu ứng dải sáng lướt qua tòa nhà */
-        .bundle::before {
-            content: ''; position: absolute; top: -100%; left: -100%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
-            animation: shine 6s infinite;
+        .btn:hover::before { left: 100%; }
+
+        .btn-light:hover { background: var(--primary-purple); border-color: var(--neon-glow); box-shadow: 0 0 20px rgba(188, 19, 254, 0.4); }
+        .btn-screen:hover { background: #002b4d; border-color: #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.4); }
+        .btn-reset { color: #444; border-color: #222; margin-top: auto; }
+
+        /* Building Arena */
+        .building-container { 
+            flex: 1; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-end; 
+            background: radial-gradient(circle at center, #1a0b2e 0%, #050505 100%); 
+            position: relative;
         }
 
-        @keyframes shine { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(50%) translateX(50%); } }
-
-        /* Các tầng thu hẹp theo cấu trúc bó tre */
-        .tier-top { width: 30px; height: 150px; z-index: 4; }
-        .tier-mid { width: 70px; height: 200px; margin-top: -10px; z-index: 3; display: flex; justify-content: center; }
-        .tier-base { width: 130px; height: 250px; margin-top: -10px; z-index: 2; }
-        .spire { width: 2px; height: 80px; background: #555; margin-bottom: -1px; }
-
-        /* Màn hình LED ẩn dưới kính */
-        .led-wrap {
-            position: absolute; top: 40px; width: 100%; height: 80px;
-            background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center;
-            border-top: 1px solid rgba(212, 175, 55, 0.2); border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            opacity: 0; transition: 0.5s;
+        /* Landmark 81 Refined Shape */
+        .landmark-wrapper {
+            position: relative;
+            width: 140px;
+            height: 85%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .led-text { color: var(--gold-leaf); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; text-align: center; }
+        .tower-section {
+            background: linear-gradient(to right, #111, #222, #111);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 1s ease;
+        }
 
-        /* Power On */
-        .power-on .bundle { border-color: rgba(100, 200, 255, 0.2); box-shadow: 0 0 30px rgba(0, 100, 255, 0.1); }
-        .power-on .led-wrap { opacity: 1; }
-        .power-on .spire { background: #fff; box-shadow: 0 0 10px #fff; }
+        .base { width: 120px; height: 40%; }
+        .mid { width: 80px; height: 30%; margin-top: -2px; }
+        .top { width: 40px; height: 20%; margin-top: -2px; }
+        .spire { width: 4px; height: 10%; background: #333; }
 
-        /* Starry Background */
-        .stars { position: absolute; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.3; }
+        /* Lighting Effects */
+        .lights-on .tower-section {
+            border-color: rgba(188, 19, 254, 0.3);
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.1);
+            background: linear-gradient(to right, #1a0033, #2d004d, #1a0033);
+        }
+
+        .led-screen { 
+            position: absolute; 
+            top: 25%; 
+            width: 100%; 
+            height: 120px; 
+            background: #000; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+        }
+
+        .led-screen.active { 
+            background: #000; 
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.2);
+        }
+
+        .led-text { 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px; 
+            color: #ff0040; 
+            text-align: center;
+            display: none;
+            filter: blur(0.5px);
+            text-shadow: 0 0 10px #ff0040;
+        }
+
+        .led-screen.active .led-text { 
+            display: block; 
+            animation: pulse 1.5s infinite alternate; 
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.7; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .status { margin-top: 20px; font-size: 11px; color: #444; font-family: 'Courier New'; }
     </style>
 </head>
 <body>
 
-    <div class="stars"></div>
-
-    <div class="panel">
-        <div class="title">Command Center v3.0</div>
+    <div class="controls">
+        <h1>COMMAND CENTER</h1>
+        <div class="target-info">Unauthorized Access Restricted<br>Target: <b>TIỂU MỸ</b></div>
         
-        <div class="control-item">
-            <label>Communication Uplink</label>
-            <input type="text" id="msgInput" placeholder="Enter message..." oninput="updateMessage()">
-        </div>
-
-        <div class="control-item">
-            <label>Master Control</label>
-            <button class="btn-luxe" id="powerBtn" onclick="togglePower()">Power Up System</button>
-            <button class="btn-luxe" onclick="celebration()">Sky Show (Fireworks)</button>
-        </div>
-
-        <div class="status-log" id="log">
-            Status: Encryption Active<br>
-            Object: Landmark 81 - Saigon<br>
-            User: Xinh Tố
-        </div>
+        <label>PHOTON LIGHTING SYSTEM</label>
+        <button class="btn btn-light" onclick="toggleLights()">ENABLE AMBIENT LIGHTS</button>
+        
+        <label>EXTERNAL LED ARRAY</label>
+        <button class="btn btn-screen" onclick="toggleScreen()">BROADCAST MESSAGE</button>
+        
+        <div class="status" id="statusLog">> System initialized...</div>
+        
+        <button class="btn btn-reset" onclick="location.reload()">TERMINATE SESSION</button>
     </div>
 
-    <div class="stage">
-        <div class="landmark-81" id="building">
-            <div class="spire"></div>
-            <div class="bundle tier-top">
-                <div class="led-wrap">
-                    <div class="led-text" id="ledDisplay">Happy Birthday<br>Tiểu Mỹ</div>
+    <div class="building-container">
+        <div class="landmark-wrapper" id="building">
+            <div class="spire tower-section"></div>
+            <div class="top tower-section">
+                <div class="led-screen" id="mainScreen">
+                    <div class="led-text">HAPPY<br>BIRTHDAY<br>TIỂU MỸ</div>
                 </div>
             </div>
-            <div class="bundle tier-mid"></div>
-            <div class="bundle tier-base"></div>
+            <div class="mid tower-section"></div>
+            <div class="base tower-section"></div>
         </div>
     </div>
 
     <script>
-        function updateMessage() {
-            const val = document.getElementById('msgInput').value;
-            document.getElementById('ledDisplay').innerHTML = val ? val.replace(/\n/g, '<br>') : "Happy Birthday<br>Tiểu Mỹ";
+        function log(msg) {
+            const date = new Date().toLocaleTimeString();
+            document.getElementById('statusLog').innerHTML = `> [${date}] ${msg}`;
         }
 
-        function togglePower() {
+        function toggleLights() {
             const b = document.getElementById('building');
-            const btn = document.getElementById('powerBtn');
-            b.classList.toggle('power-on');
-            
-            const isOn = b.classList.contains('power-on');
-            btn.innerText = isOn ? "Shut Down Grid" : "Power Up System";
-            btn.classList.toggle('active');
-            
-            document.getElementById('log').innerHTML = isOn ? 
-                "Status: Online<br>Grid: Stable<br>Visuals: Synchronized" : 
-                "Status: Standby<br>Grid: Offline<br>Waiting for input...";
+            b.classList.toggle('lights-on');
+            const isOn = b.classList.contains('lights-on');
+            log(isOn ? "Atmospheric lighting: ONLINE" : "Atmospheric lighting: OFFLINE");
         }
 
-        function celebration() {
-            alert("Hệ thống pháo hoa đã sẵn sàng cho Tiểu Mỹ! (Hoàng có thể code thêm canvas pháo hoa nếu Xinh Tố muốn nó nổ thực thụ)");
+        function toggleScreen() {
+            const s = document.getElementById('mainScreen');
+            s.classList.toggle('active');
+            const isActive = s.classList.contains('active');
+            log(isActive ? "Visual Uplink: ACTIVE - Broadcasting data" : "Visual Uplink: DISCONNECTED");
         }
     </script>
 </body>
