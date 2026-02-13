@@ -3,84 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landmark 81 Control Panel - Happy Birthday Tiểu Mỹ</title>
+    <title>Landmark 81 Command Center - Luxury Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; background: #0a0a0a; color: white; font-family: 'Segoe UI', sans-serif; display: flex; overflow: hidden; }
-        
-        /* Panel điều khiển bên trái */
-        .controls { width: 350px; padding: 30px; background: #151515; height: 100vh; border-right: 1px solid #333; z-index: 10; }
-        
-        /* Mô phỏng tòa nhà Landmark 81 bên phải */
-        .building-container { flex: 1; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 50px; position: relative; background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0a 100%); }
-        
-        .landmark81 { width: 120px; height: 80%; background: #222; position: relative; transition: 0.5s; clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        
-        /* Chế độ đèn */
-        .landmark81.lights-on { background: #333; box-shadow: 0 0 50px rgba(255, 215, 0, 0.3); }
-        .landmark81.lights-on::after { content: ''; position: absolute; width: 100%; height: 100%; background: repeating-linear-gradient(transparent, transparent 10px, rgba(255, 215, 0, 0.1) 11px); }
+        :root {
+            --primary-purple: #2d004d;
+            --accent-gold: #d4af37;
+            --neon-glow: #bc13fe;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
 
-        /* Màn hình LED trên tòa nhà */
-        .led-screen { position: absolute; top: 30%; left: 50%; transform: translateX(-50%); width: 60px; height: 100px; background: #000; border: 2px solid #444; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; }
-        .led-screen.active { background: #ff0000; box-shadow: 0 0 20px #ff0000; border-color: #ff4d4d; }
-        .led-text { font-size: 10px; font-weight: bold; color: white; display: none; }
-        .led-screen.active .led-text { display: block; animation: scrollText 3s linear infinite; }
+        body { 
+            margin: 0; 
+            background: #050505; 
+            color: #e0e0e0; 
+            font-family: 'Montserrat', sans-serif; 
+            display: flex; 
+            height: 100vh;
+            overflow: hidden; 
+        }
 
-        @keyframes scrollText { from { transform: translateY(100%); } to { transform: translateY(-100%); } }
+        /* Control Panel - Glassmorphism style */
+        .controls { 
+            width: 380px; 
+            padding: 40px; 
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
+            border-right: 1px solid rgba(212, 175, 55, 0.2); 
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(15px);
+        }
 
-        h1 { color: #eb0028; font-size: 20px; text-transform: uppercase; }
-        .btn { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-light { background: #feca57; color: #000; }
-        .btn-screen { background: #54a0ff; color: #fff; }
-        .btn-reset { background: #333; color: #888; }
-        .status { margin-top: 20px; font-size: 14px; color: #666; }
+        h1 { 
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-gold); 
+            font-size: 22px; 
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .target-info {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .target-info b { color: var(--neon-glow); }
+
+        label {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #555;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .btn { 
+            width: 100%; 
+            padding: 18px; 
+            margin: 12px 0; 
+            border: 1px solid rgba(212, 175, 55, 0.3); 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: transparent;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before { left: 100%; }
+
+        .btn-light:hover { background: var(--primary-purple); border-color: var(--neon-glow); box-shadow: 0 0 20px rgba(188, 19, 254, 0.4); }
+        .btn-screen:hover { background: #002b4d; border-color: #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.4); }
+        .btn-reset { color: #444; border-color: #222; margin-top: auto; }
+
+        /* Building Arena */
+        .building-container { 
+            flex: 1; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-end; 
+            background: radial-gradient(circle at center, #1a0b2e 0%, #050505 100%); 
+            position: relative;
+        }
+
+        /* Landmark 81 Refined Shape */
+        .landmark-wrapper {
+            position: relative;
+            width: 140px;
+            height: 85%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tower-section {
+            background: linear-gradient(to right, #111, #222, #111);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 1s ease;
+        }
+
+        .base { width: 120px; height: 40%; }
+        .mid { width: 80px; height: 30%; margin-top: -2px; }
+        .top { width: 40px; height: 20%; margin-top: -2px; }
+        .spire { width: 4px; height: 10%; background: #333; }
+
+        /* Lighting Effects */
+        .lights-on .tower-section {
+            border-color: rgba(188, 19, 254, 0.3);
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.1);
+            background: linear-gradient(to right, #1a0033, #2d004d, #1a0033);
+        }
+
+        .led-screen { 
+            position: absolute; 
+            top: 25%; 
+            width: 100%; 
+            height: 120px; 
+            background: #000; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+        }
+
+        .led-screen.active { 
+            background: #000; 
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.2);
+        }
+
+        .led-text { 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px; 
+            color: #ff0040; 
+            text-align: center;
+            display: none;
+            filter: blur(0.5px);
+            text-shadow: 0 0 10px #ff0040;
+        }
+
+        .led-screen.active .led-text { 
+            display: block; 
+            animation: pulse 1.5s infinite alternate; 
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.7; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .status { margin-top: 20px; font-size: 11px; color: #444; font-family: 'Courier New'; }
     </style>
 </head>
 <body>
 
     <div class="controls">
-        <h1>Command Center<br>Landmark 81</h1>
-        <p>Target: <b>Cô Tiểu Mỹ</b></p>
-        <hr style="border-color: #333">
+        <h1>COMMAND CENTER</h1>
+        <div class="target-info">Unauthorized Access Restricted<br>Target: <b>TIỂU MỸ</b></div>
         
-        <label>HỆ THỐNG CHIẾU SÁNG</label>
-        <button class="btn btn-light" onclick="toggleLights()">BẬT/TẮT ĐÈN TÒA NHÀ</button>
+        <label>PHOTON LIGHTING SYSTEM</label>
+        <button class="btn btn-light" onclick="toggleLights()">ENABLE AMBIENT LIGHTS</button>
         
-        <label>MÀN HÌNH LED NGOÀI TRỜI</label>
-        <button class="btn btn-screen" onclick="toggleScreen()">KẾT NỐI & PHÁT THÔNG ĐIỆP</button>
+        <label>EXTERNAL LED ARRAY</label>
+        <button class="btn btn-screen" onclick="toggleScreen()">BROADCAST MESSAGE</button>
         
-        <button class="btn btn-reset" onclick="location.reload()">RESET SYSTEM</button>
-
-        <div class="status" id="statusLog">> Hệ thống sẵn sàng...</div>
+        <div class="status" id="statusLog">> System initialized...</div>
+        
+        <button class="btn btn-reset" onclick="location.reload()">TERMINATE SESSION</button>
     </div>
 
     <div class="building-container">
-        <div id="fireworks"></div>
-        
-        <div class="landmark81" id="building">
-            <div class="led-screen" id="mainScreen">
-                <div class="led-text">HAPPY<br>BIRTHDAY<br>TIỂU MỸ!</div>
+        <div class="landmark-wrapper" id="building">
+            <div class="spire tower-section"></div>
+            <div class="top tower-section">
+                <div class="led-screen" id="mainScreen">
+                    <div class="led-text">HAPPY<br>BIRTHDAY<br>TIỂU MỸ</div>
+                </div>
             </div>
+            <div class="mid tower-section"></div>
+            <div class="base tower-section"></div>
         </div>
     </div>
 
     <script>
         function log(msg) {
-            document.getElementById('statusLog').innerHTML = "> " + msg;
+            const date = new Date().toLocaleTimeString();
+            document.getElementById('statusLog').innerHTML = `> [${date}] ${msg}`;
         }
 
         function toggleLights() {
             const b = document.getElementById('building');
             b.classList.toggle('lights-on');
             const isOn = b.classList.contains('lights-on');
-            log(isOn ? "Đã bật hệ thống đèn trang trí." : "Đã tắt đèn tiết kiệm điện.");
+            log(isOn ? "Atmospheric lighting: ONLINE" : "Atmospheric lighting: OFFLINE");
         }
 
         function toggleScreen() {
             const s = document.getElementById('mainScreen');
             s.classList.toggle('active');
             const isActive = s.classList.contains('active');
-            log(isActive ? "Đang phát thông điệp chúc mừng trên LED..." : "Màn hình đã ngắt kết nối.");
+            log(isActive ? "Visual Uplink: ACTIVE - Broadcasting data" : "Visual Uplink: DISCONNECTED");
         }
     </script>
 </body>
-</html> 
+</html>
